@@ -1,5 +1,5 @@
-const types = {
-    browserAPI:'BROWSER_API'
-}
 
-export default types
+
+const BROWSER_API = 'BROWSER_API'
+
+export { BROWSER_API }

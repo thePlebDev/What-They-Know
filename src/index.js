@@ -8,7 +8,6 @@ import reducers from './Redux/Reducers/combineReducers'
 
 const store = createStore(reducers)
 
-console.log(store.getState())
 
 
 

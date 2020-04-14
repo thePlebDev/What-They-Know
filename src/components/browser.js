@@ -8,17 +8,19 @@ class BrowserAPI extends React.Component{
     constructor(props){ // this is uselss
         super(props)
 
+        this.actionCreator = this.actionCreator.bind(this)
+
     }
 
-    actionCreator(){ // this function needs to be binded 
-      this.props.browserActionCreator('this is another one')
+    actionCreator(){
+        //when called this would create a new execution context, that is not pointing to the right 'this'
+        return this.props.browserActionCreator('another one')
     }
 
     render(){
-        console.log(this.props.browserActionCreator)
         return(
             <div>
-                <button onClick={actionCreator}>Click me </button>
+                <button onClick={this.actionCreator}>Click me </button>
             </div>
         )
     }
@@ -28,5 +30,12 @@ const actionCreators ={
     browserActionCreator
 }
 
-const connectedBrowserAPI = connect(null,actionCreators)(BrowserAPI)
+function mapStateToProps(state){
+    console.log(state)
+    return{
+        state
+    }
+}
+
+const connectedBrowserAPI = connect(mapStateToProps,actionCreators)(BrowserAPI)
 export default connectedBrowserAPI;

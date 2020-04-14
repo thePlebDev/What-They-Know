@@ -1,9 +1,9 @@
-import types from './types';
+import { BROWSER_API } from './types'
 
 
 function browserActionCreator(text){
     return{
-        type:types.BrowserAPI,
+        type:BROWSER_API,
         payload:{
             text: text
         }

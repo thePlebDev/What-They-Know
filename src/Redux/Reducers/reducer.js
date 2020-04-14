@@ -1,4 +1,4 @@
-import types from '../actionCreators/types'
+import { BROWSER_API } from '../actionCreators/types'
 
 const initialState = {
     browser:{
@@ -18,8 +18,9 @@ const initialState = {
 
 function reducer(state=initialState,action){
     switch (action.type){
-      case types.browserAPI:
-        return {...state,text:action.payload.text}
+      case BROWSER_API:
+
+        return { info:action.payload.text, ...state}
 
       default:
         return state

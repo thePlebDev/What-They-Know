@@ -76,4 +76,114 @@ MAPDISPATCHTOPROPS:
 -dispatching an action is the only way to trigger a state change.
 -mapDispatchToProps is used for dispatching actions to the store.
 - we will be using the object shorthand form of mapDispatchToProps, which is more declarative and easier to use
-- so you just import the action creators and then use them as values in mapDispatchToProps object 
+- so you just import the action creators and then use them as values in mapDispatchToProps object
+- so apparently my constructor is useless and I am not sure why. looks like I am going to look into that.
+
+class components:
+- so we definitely need the constructor if we need to use  a lifecycle method.
+- we will be using componentDidMount because of the fact that I want the browser data to load before and have it saved into
+the session state where it can be accessed but it would be nice if I could have it appear in the state once it is loaded
+- but I want a button to be clicked and the data to be displayed. I am not sure on how I want to do that yet
+
+componentDidMount:
+- this is invoked immediately after a component is mounted. this is where we will make the api calls for the browser.
+the others I am going to make an asyncronous action to do that.
+
+Why do we need to bind our functions?
+- the reason that we have to do this is because of how 'this' works in javascript, the dynamically scoped nature of
+'this' in javascript. So I need a better understanding of how 'this' works then.
+
+'THIS':
+- in JavaScript there are two ways to invoke a function.
+
+1)the do method object.method()
+- this means that we are invoking the method that is on the object. we look to left of the dot to find the context of 'this'
+in this case 'this' would be in the context for the object
+
+2) call and apparently
+- instead of using the dot rule, we are just straight up saying what we want 'this' to refer to.
+
+- it is important to be clear about how functions can be invoked in javascript because 'this' is dynamically scoped. it means
+that the value of 'this' is tied to how a fucntion is called
+-now I will get a better look on what happens to a function internally when it gets invoked(the execution context )
+
+
+what happens internally when a function is invoked(execution context):
+-there are three types of execution context
+1) global: is the default. the value of this will be equal to the global object.
+
+2) functional execution: every time a function is invoked, a brand new execution context is created for that function
+
+THE EXECUTION STACK:
+- also know as the call stack(Last in first out)
+- when the Javascript engine first encounters my script it creates a gloabl execution context and pushes it to the
+current execution stack. same goes for when the engine finds a function but it creates a new execution context for
+that function and pushes it to the top of the stack
+- when the function gets executed, it gets popped off from the stack
+
+how the execution context is created:
+1)creation phase: the execution context is created during the creation phase. Following things happen during the
+creation phase. The lexical environment component is created. the lexical environment is the creation of all the
+references to the objects
+- when you see 'this' used in a function, you must see how that function is called because the way that the
+function is called will change the value of 'this'.
+
+2)execution phase: in this phase all the assignments are done and the code is finally executed
+- so that was a whole lot, to basically tell me that a new execution context happens when a function is encountered
+
+
+- my problems are still coming from a lack of understanding of what 'this' means in the context of the application
+- so I will now read up on what the value of 'this' is
+
+WTF IS THIS:
+- the value of this will always be determined by the execution context
+- in a normal function call 'this' refers to the global context
+
+- the bind method, using the bind method creates a new function with the same body and scope as the original but
+'this' now is bound to the first argument in the bind method.
+- the onClick which is basically like using onclick in HTML or adding an event listener in HTML, attaches a function
+to a click event
+- however, for any event listener the target element(e.currentTerget)  is what 'this' refers to. We can think of event
+listeners as passing in the target element into 'call' as the first element
+- so this should refer to the target element
+
+- in my application this refers to the whole class and everything inside of it. so we are able to get at the method
+that we want to call but the problem lies in the execution of the method. We need to understand the execution context
+of our function in order to get to the bottom of 'this'.
+
+- so since we use onClick the initial value of 'this' is the element that our onClick is on
+- we use bind to basically override what the old this value was
+- so we know that the 'this' is not of the global context
+- so I think that the execution context of our component is the actual object its self
+- our current problem is that the value of 'this' is undefined.
+- so the problem seems to be something to do with the contexts. With creating a new context that is different than
+the original
+- so now I have to see what context 'this' is referring to. I think it is refering to global scope.
+-so the default binding is global scope
+- when you call an method on an object like this obj.method() the 'this' value refers to the object. This is what is
+called implicit binding. I need to read what onClick does in terms of binding.
+- in our application when we call this.actionCreator, it falls back to the default binding. This has to be because of the
+fact that we are not providing execution context for the method that is actionCreator. So 'this' points to the global
+object.
+
+SUMMARY OF WHAT HAPPENS TO 'THIS':
+-the event handler method loses its implicitly bound context
+implicit binding: states that when you are calling a function, look to the left of the dot and that is what the this
+keyword will reference
+- the 'this' value will then fall back to default binding.
+- to solve this problem we can bind the function or we can just use an arrow function because it does not have its own this
+value and will use the lexical 'this' binding.
+
+- so I think I have a basic understanding of what is happening, basically, in short it loses its binding because the function
+does not share the same execution context as the outer object. That is why we have to bind it. if the function is not called
+with an object reference, apply, call or bind, then the value of 'this' is set to default binding which is global
+
+- Now I just have to bind the function in the constructor to make the value of 'this' work. It is now bound and will
+reference the component thanks to the bind method.
+
+- so I have put in a mapStateToProps just so I can console.log out the state. mapStateToProps runs everytime the state
+changes, so if the state changes, then I will be able to see it.
+
+- right now I am having a problem with what the state is displaying. I want to make three reducers and I want them all to
+handle there own state. So i need to read up more on what is happening to the state and the reducers and all that redux
+stuff. FML, I guess just keep trucking along
