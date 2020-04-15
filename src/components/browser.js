@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import browserActionCreator from '../Redux/actionCreators/actionCreators'
+import GeoLocation from './GeoLocation'
 
 
 class BrowserAPI extends React.Component{
@@ -20,7 +21,8 @@ class BrowserAPI extends React.Component{
     render(){
         return(
             <div>
-                <button onClick={this.actionCreator}>Click me </button>
+                <button>Click me </button>
+                <GeoLocation />
             </div>
         )
     }

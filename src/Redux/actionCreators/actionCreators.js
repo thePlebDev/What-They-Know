@@ -1,11 +1,12 @@
 import { BROWSER_API } from './types'
 
 
-function browserActionCreator(text){
+function browserActionCreator(lat,lon){
     return{
         type:BROWSER_API,
         payload:{
-            text: text
+            lat,
+            lon
         }
     }
 }

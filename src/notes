@@ -186,4 +186,59 @@ changes, so if the state changes, then I will be able to see it.
 
 - right now I am having a problem with what the state is displaying. I want to make three reducers and I want them all to
 handle there own state. So i need to read up more on what is happening to the state and the reducers and all that redux
-stuff. FML, I guess just keep trucking along
+stuff. FML, I guess just keep trucking along.
+- the shape of our state is fine. Its just how we handle and update it thats not working.
+- so we might just have our reducers handle there own individual states. I think that is the way to go.
+- so I fixed the reducer state. So you return the whole state like ...state and then you add the part of the state you
+want to change but you have to make it identical to the part of that state, in order to over it.
+- I ran into a new problem, where the state just gets overridden each time. Well i guess thats not really a problem. It
+might be in the future but right now It is not
+
+- so now We will be adding the browser features to the state
+- so our browser state will have the geo location api, the history api and the storage api in it. I actually think I will
+need the to rewrite the state
+- ok so now it is a problem. I think I will need to use a list instead of an object like they do in the documentation. Ya,
+when I get back from my run I rework it to look like the documentations. So I think I have it, I want things to be under
+one reducer, Now I will just have to see what I can do with the APIs and implementing there data to the state.
+- when you click the button, I want a whole bunch of shit to happen.
+- so I am thinking I might just put my code that runs the geolocation api into another compoennet
+- I am not going to do feature detection or modernizr. actually I will check with navigator.geolocation
+
+GEOLOCATION API:
+- once we call getCurrentPosition, the code continues onto the next line because it is an async request. getCurrentPosition
+has two parameters, success and fail. ya so just for the sake of things, I am going to put the geolocation API in its
+own component.
+- the geolocation API is accessed via a call to navigator.geolocation; this will cause the user's browser to ask them for
+permission to access their location data
+- so I think that I can dispatch action creators inside of the getCurrentPosition(success,failure) success function
+that would make the most sense to me
+- I feel like I tried something similar to that but it didnt work for some reason. But I shall try again
+- I guess we will want to do some conditional rendering too but for the moment lets just load the GEO API
+- so now that I have my coordinates I have to use them to update the state. I think  I just use connect to allow my
+component to dispatch the actions and change the payload that it is accepting.
+- I actually want to read up more on the action creators because right now, the design I have for my one feels wrong
+- think I am going to make more reducers and more action creators just to make things more easier on myself
+- so for right now We will just have the reducer that does the geolocation information.
+- Now that we have that, we can allow for our action creators to hopefully be used. I will do this with the Redux
+connection method
+
+
+REACT-REDUX CONNECT:
+- I do not think I will need map state to props but I will need mapDispatchToProps
+- the mapDispatchToProps allows us to specify which actions our component will need to dispatch.
+- I wont be using mapDispatchToProps as a function but I just want to read up on it a little incase the need arises
+- it gives more flexibility in customizing the functions the component receives and how they dispatch action.
+- allows us to access the data more before it is displayed
+- ok so I am going to poop and then go set up the action creators. If they work I am going to laugh because last
+time this kinda thing gave me so much trouble and now I am solving it in like 4 minutes.
+- the problem that I just faced was the problem of 'this' being undefined, when 'this' is undefined it means that
+it is pointing to a different scope
+
+- each execution context offers a keyword named this.
+- the JavaScript interpreter  maintains the 'this' binding as it evaluates Javascript code. the interpreter updates
+the 'this' binding whenever establishing an execution context in one of only three different cases
+- scope chain is just when a function would go looking for a variable, from locally to globally.
+- so the main reason that I think that 'this' is undefined is because we are not providing it with the proper reference
+for the function.
+- cool so now we have the geo location api. So we would probably want to put up a map. So now that I have that I think I want to
+work on the UI component. 

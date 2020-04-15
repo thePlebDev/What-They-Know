@@ -2,7 +2,12 @@ import { BROWSER_API } from '../actionCreators/types'
 
 const initialState = {
     browser:{
-        info:'Nothing to display yet'
+        geo:{
+            lat:'this is where the lat goes',
+            lon: 'this is where the lon goes'
+        },
+        storage:'nothing here yet',
+        history:'nothing here yet'
     },
 
     google:{
@@ -20,7 +25,13 @@ function reducer(state=initialState,action){
     switch (action.type){
       case BROWSER_API:
 
-        return { info:action.payload.text, ...state}
+        return { ...state, browser:{
+            geo:{
+                lat:action.payload.lat,
+                lon:action.payload.lon
+            }
+        }
+        }
 
       default:
         return state
